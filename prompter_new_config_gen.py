@@ -1,18 +1,6 @@
-import json, sys, os, fnmatch, argparse
+import json, sys, os, fnmatch, argparse, shutil
 from collections import OrderedDict
-    
-parser = argparse.ArgumentParser(description="Convert a Prompter JSON configuration file to the new schema format")
-parser.add_argument("-f", "--file", dest="filename", help="file to be converted, default file name is 'prompterconfig.json'", metavar="FILE", default="prompterconfig.json")
-parser.add_argument("-d", "--dir", dest="pathinfo", help="directory where to search the given file, default dir is the current dir './'", metavar="DIR", default="./")
-args = parser.parse_args()
 
-filename = args.filename
-pathinfo = args.pathinfo
-if filename.split('.')[-1] != "json":
-    print("Please convert JSON files only! (*.json)" )
-    sys.exit()
-
-print("Searching and converting files named '{}' under directory '{}'".format(filename, pathinfo))
     
 def find_all(name, path):
     result = []
@@ -63,7 +51,7 @@ def convert(file_name):
                     break
             if found == False:
                 data = {
-                    "name": "vocalizer_" + str(idx),
+                    "name": "VE_DATA" + str(idx),
                     "vocalizer_path": prmpt["local"]["vocalizer_path"]
                 }
                 val = prmpt["local"].get("scan_result_storage_path")
@@ -87,14 +75,42 @@ def convert(file_name):
     dump = json.dumps(config, indent=2)
     print >> file, dump
     file.close()
+    
+def backup(original_file):
+    backup_file = original_file + ".bak"
+    shutil.copyfile(original_file, backup_file)
+    if os.path.isfile(backup_file):
+        print("Backing up file {} to {} success.".format(original_file, backup_file))
+    else:
+        raise Exception("Backing up file {} to {} failed".format(original_file, backup_file))
 
 def convert_all(file_name, path_info):
     files = find_all(file_name, path_info)
     if not files:
-        print("NO specified file found. Please double check the file name and path info.")
-        return
+        raise Exception("NO specified file found. Please double check the file name and path info.")
     for file in files:
         print("Converting file " + file)
+        backup(file)
         convert(file)
 
-convert_all(filename, pathinfo)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Convert a Prompter JSON configuration file to the new schema format")
+    parser.add_argument("-f", "--file", dest="filename", help="file to be converted, default file name is 'prompterconfig.json'", metavar="FILE", default="prompterconfig.json")
+    parser.add_argument("-d", "--dir", dest="pathinfo", help="directory where to search the given file, default dir is the current dir './'", metavar="DIR", default="./")
+    args = parser.parse_args()
+
+    filename = args.filename
+    pathinfo = args.pathinfo
+    
+    if filename.split('.')[-1] != "json":
+        print("Please convert JSON files only! (*.json)" )
+        sys.exit(1)
+
+    print("\nSearching and converting files named '{}' under directory '{}'\n".format(filename, pathinfo))
+
+    try:
+        convert_all(filename, pathinfo)
+        print("\nDONE - Please diff the file with the original one\n")
+    except Exception, e:
+        print("\nERROR - {}".format(e.message))
+        

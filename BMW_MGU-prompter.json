@@ -1,0 +1,25 @@
+{
+    "version" : "Prompter 1.0",
+
+    "prompter" : [
+        {
+            "name" : "SDS_prompter",
+            "type" : "local",
+            "local":
+            {
+                "vocalizer_path" : "/mnt/dataro/data/spe/tts",
+                "tuning_files_root_path" : "/mnt/dataro/data/spe/tts",
+                "email_parser_configs_root_path": "/mnt/dataro/data/spe/tts"
+            }
+        },
+        {
+            "name" : "NAVI_prompter",
+            "type" : "local",
+            "local":
+            {
+                "vocalizer_path" : "/mnt/dataro/data/spe/tts",
+                "tuning_files_root_path" : "/mnt/dataro/data/spe/tts"
+            }
+        }
+    ]
+}

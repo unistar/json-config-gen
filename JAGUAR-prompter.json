@@ -1,0 +1,31 @@
+{
+    "version" : "Prompter 1.0",
+    "prompter" : [
+        {
+            "name" : "NUANCE_TTS_NONPAUSEABLE",
+            "type" : "local",
+            "local":
+            {
+                "vocalizer_path" : "/var/db/ext/speech/tts",
+                "otd_files_root_path" : "/opt2/speech/dialog/prompt",
+                "otd_audio_files_root_path" : "/opt2/speech/dialog",
+                "tuning_files_root_path" : "/var/db/ext/speech/tts",
+                "email_parser_configs_root_path" : "/var/db/ext/speech/tts",
+                "samples_per_channel" : 1024
+            }
+        },
+        {
+            "name" : "NUANCE_TTS_PAUSEABLE",
+            "type" : "local",
+            "local":
+            {
+                "vocalizer_path" : "/var/db/ext/speech/tts",
+                "otd_files_root_path" : "/opt2/speech/dialog/prompt",
+                "otd_audio_files_root_path" : "/opt2/speech/dialog",
+                "tuning_files_root_path" : "/var/db/ext/speech/tts",
+                "email_parser_configs_root_path" : "/var/db/ext/speech/tts",
+                "samples_per_channel" : 1024
+            }
+        }
+    ]
+}
