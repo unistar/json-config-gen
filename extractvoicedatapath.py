@@ -95,7 +95,7 @@ def convert_all(file_name, path_info, indent):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Convert a Prompter JSON configuration file to the new schema format")
-    parser.add_argument("-f", "--file", dest="filename", help="file to be converted, default file name is 'prompterconfig.json'", metavar="FILE", default="prompterconfig.json")
+    parser.add_argument("-f", "--file", dest="filename", help="file to be converted, default file name is 'prompterconfig.json'", metavar="FILE", default="prompter.json")
     parser.add_argument("-d", "--dir", dest="pathinfo", help="directory where to search the given file, default dir is the current dir './'", metavar="DIR", default="./")
     parser.add_argument("-i", "--ind", dest="indent", help="an integer for the indentation, default is 4 spaces", metavar="IND", default=4, type=int)
     args = parser.parse_args()
